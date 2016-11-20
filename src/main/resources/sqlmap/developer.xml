@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="developer">
+
+    <typeAlias alias="DeveloperDTO" type="com.xiaoming.dto.DeveloperDTO"/>
+
+    <resultMap id="DeveloperDTO" class="DeveloperDTO">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+        <result column="public_key" jdbcType="BIGINT" property="publicKey" />
+        <result column="rsa_length" jdbcType="TINYINT" property="rsaLength" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    </resultMap>
+
+    <insert id="insert" parameterClass="DeveloperDTO">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        INSERT INTO developer( id, name, app_key, public_key, rsa_length, status, gmt_created, creator, gmt_modified,
+        modifier)
+        VALUES ( #id#, #name#, #appKey#, #publicKey#, #rsaLength#, #status#, #gmtCreated#, #creator#, #gmtModified#,
+        #modifier#)
+    </insert>
+
+    <select id="find" parameterClass="DeveloperDTO" resultMap="DeveloperDTO">
+        SELECT * FROM developer
+        WHERE 1=1
+        <isNotEmpty prepend="and" property="name">
+            name = #name#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="appKey">
+            app_key = #appKey#
+        </isNotEmpty>
+    </select>
+
+</sqlMap>

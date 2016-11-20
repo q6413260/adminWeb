@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+    <!-- 配置settings -->
+    <settings lazyLoadingEnabled="true" useStatementNamespaces="true"/>
+
+    <!-- 配置sql映射文件 -->
+    <sqlMap resource="sqlmap/developer.xml"/>
+    <sqlMap resource="sqlmap/user.xml"/>
+    <sqlMap resource="sqlmap/roleMenu.xml"/>
+    <sqlMap resource="sqlmap/menu.xml"/>
+</sqlMapConfig>

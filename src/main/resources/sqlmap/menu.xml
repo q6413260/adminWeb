@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="menu" >
+
+    <typeAlias alias="MenuDTO" type="com.xiaoming.dto.MenuDTO" />
+
+    <resultMap class="MenuDTO" id="MenuDTO">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+        <result column="level" jdbcType="TINYINT" property="level" />
+        <result column="order_no" jdbcType="TINYINT" property="orderNo" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    </resultMap>
+
+    <sql id="columns" >
+        id, name, url,parent_id, level, order_no, creator, gmt_created, modifier, gmt_modified
+    </sql>
+
+    <select id="find" parameterClass="MenuDTO" resultMap="MenuDTO">
+        SELECT
+        <include refid="columns" />
+        FROM menu
+        WHERE 1=1
+    </select>
+
+    <select id="findByIdList" parameterClass="java.util.List" resultMap="MenuDTO">
+        SELECT
+        <include refid="columns" />
+        FROM menu WHERE id IN
+        <iterate conjunction="," open="(" close=")">
+            #list[]#
+        </iterate>
+        order by level asc, order_no asc
+    </select>
+
+</sqlMap>

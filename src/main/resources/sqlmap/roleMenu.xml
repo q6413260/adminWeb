@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="roleMenu" >
+
+    <typeAlias alias="RoleMenuDTO" type="com.xiaoming.dto.RoleMenuDTO" />
+
+    <resultMap class="RoleMenuDTO" id="RoleMenuDTO">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="role_id" jdbcType="BIGINT" property="roleId" />
+        <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+    </resultMap>
+
+    <sql id="columns" >
+        id, role_id, menu_id
+    </sql>
+
+    <select id="find" parameterClass="RoleMenuDTO" resultMap="RoleMenuDTO">
+        SELECT
+        <include refid="columns"></include>
+        FROM role_menu
+        WHERE 1=1
+        <isNotEmpty prepend="and" property="roleId">
+            role_id = #roleId#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="menuId">
+            menu_id = #menuId#
+        </isNotEmpty>
+    </select>
+
+</sqlMap>

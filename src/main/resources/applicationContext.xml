@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+       default-autowire="byName">
+    <import resource="classpath*:datasource.xml" />
+    <import resource="classpath*:redis.xml" />
+
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com" />
+
+    <bean class="com.xiaoming.util.ApplicationContextUtil"></bean>
+
+    <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 输出对象转JSON支持 -->
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="stringConverter"/>
+                <ref bean="jsonConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--&lt;!&ndash; 配置velocity引擎 &ndash;&gt;-->
+    <!--<bean id="velocityConfigurer"-->
+          <!--class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">-->
+        <!--<property name="resourceLoaderPath" value="/WEB-INF/velocity/" />&lt;!&ndash; 模板存放的路径 &ndash;&gt;-->
+        <!--<property name="configLocation" value="/WEB-INF/velocity.properties" />-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 配置视图的显示 &ndash;&gt;-->
+    <!--<bean id="ViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">-->
+        <!--<property name="prefix" value="/" />&lt;!&ndash; 视图文件的前缀，即存放的路径 &ndash;&gt;-->
+        <!--<property name="suffix" value=".vm" />&lt;!&ndash; 视图文件的后缀名 &ndash;&gt;-->
+        <!--<property name="dateToolAttribute" value="date" />&lt;!&ndash;日期函数名称&ndash;&gt;-->
+        <!--<property name="numberToolAttribute" value="number" />&lt;!&ndash;数字函数名称&ndash;&gt;-->
+        <!--<property name="contentType" value="text/html;charset=UTF-8" />-->
+        <!--<property name="exposeSpringMacroHelpers" value="true" />&lt;!&ndash;是否使用spring对宏定义的支持&ndash;&gt;-->
+        <!--<property name="exposeRequestAttributes" value="true" />&lt;!&ndash;是否开放request属性&ndash;&gt;-->
+        <!--<property name="requestContextAttribute" value="rc"/>&lt;!&ndash;request属性引用名称&ndash;&gt;-->
+    <!--</bean>-->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"></mvc:mapping>
+            <mvc:exclude-mapping path="/login.vm"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/static/**"></mvc:exclude-mapping>
+            <bean class="com.xiaoming.service.CheckLoginService" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
