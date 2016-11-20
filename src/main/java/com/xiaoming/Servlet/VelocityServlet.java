@@ -17,43 +17,6 @@ import java.util.List;
  * Created by xiaoming on 19/11/2016.
  */
 public class VelocityServlet extends VelocityLayoutServlet {
-    //private ThreadLocal<UserDTO> userDTOThreadLocal = new ThreadLocal<UserDTO>();
-
-//    @Override
-//    public void fillContext(Context ctx, HttpServletRequest request) {
-//        if ("/login.vm".equals(request.getServletPath())) {
-//
-//        }else if("/page_404.jsp".equals(request.getServletPath())){
-//
-//        }else{
-//            UserDTO userDTO = userDTOThreadLocal.get();
-//            super.getServletContext();
-//            UserService userService = (UserService) ApplicationContextUtil.getBean("userService");
-//            List<MenuDTO> list = userService.getAccessMenus(userDTO.getId());
-//            ctx.put("menuList", list);
-//            ctx.put("name", userDTO.getName());
-//        }
-//
-//        super.fillContext(ctx, request);
-//    }
-//
-//    @Override
-//    public void doRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        if ("/login.vm".equals(request.getServletPath())) {
-//
-//        }else if("/page_404.jsp".equals(request.getServletPath())){
-//
-//        }else{
-//            UserDTO userDTO = CommonUtils.getUserFromReqToken(request);
-//            userDTOThreadLocal.set(userDTO);
-//            if (userDTO == null) {
-//                response.sendRedirect("/login.vm");
-//                return;
-//            }
-//        }
-//        super.doRequest(request, response);
-//    }
-
     @Override
     protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context ctx) {
         if ("/login.vm".equals(request.getServletPath())) {
@@ -66,9 +29,10 @@ public class VelocityServlet extends VelocityLayoutServlet {
                     return this.getTemplate(request, response);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return null;
                 }
             }
-            UserService userService = (UserService) ApplicationContextUtil.getBean("userService");
+            UserService userService = ApplicationContextUtil.getBean("userService");
             List<MenuDTO> list = userService.getAccessMenus(userDTO.getId());
             ctx.put("menuList", list);
             ctx.put("name", userDTO.getName());
