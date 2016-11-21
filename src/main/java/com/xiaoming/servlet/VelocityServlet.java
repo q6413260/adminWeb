@@ -1,4 +1,4 @@
-package com.xiaoming.Servlet;
+package com.xiaoming.servlet;
 
 import com.xiaoming.dto.MenuDTO;
 import com.xiaoming.dto.UserDTO;

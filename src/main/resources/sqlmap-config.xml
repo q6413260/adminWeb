@@ -9,4 +9,5 @@
     <sqlMap resource="sqlmap/user.xml"/>
     <sqlMap resource="sqlmap/roleMenu.xml"/>
     <sqlMap resource="sqlmap/menu.xml"/>
+    <sqlMap resource="sqlmap/api.xml"/>
 </sqlMapConfig>

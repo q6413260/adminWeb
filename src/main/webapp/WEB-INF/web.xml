@@ -35,7 +35,7 @@
   <servlet>
     <servlet-name>velocity</servlet-name>
     <servlet-class>
-      com.xiaoming.Servlet.VelocityServlet
+        com.xiaoming.servlet.VelocityServlet
     </servlet-class >
     <init-param>
       <param-name>org.apache.velocity.toolbox</param-name>

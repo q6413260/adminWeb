@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="api" >
+
+    <typeAlias alias="ApiDTO" type="com.xiaoming.dto.ApiDTO" />
+
+    <resultMap id="ApiDTO" class="ApiDTO">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="service_name" jdbcType="VARCHAR" property="serviceName"/>
+        <result column="interface_name" jdbcType="VARCHAR" property="interfaceName"/>
+        <result column="method_name" jdbcType="VARCHAR" property="methodName"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    </resultMap>
+
+    <select id="find" parameterClass="UserDTO" resultMap="ApiDTO">
+        SELECT * FROM api
+        WHERE 1=1
+        <isNotEmpty prepend="id" property="id">
+            id = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="serviceName">
+            service_name = #serviceName#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="interfaceName">
+            interface_name = #interfaceName#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="methodName">
+            method_name = #methodName#
+        </isNotEmpty>
+    </select>
+
+</sqlMap>
