@@ -27,7 +27,7 @@
         <result column="dto_class_name" jdbcType="VARCHAR" property="dtoClassName"/>
         <result column="argument_type" jdbcType="VARCHAR" property="argumentType"/>
         <result column="argument_desc" jdbcType="VARCHAR" property="argumentDesc"/>
-        <result column="order" jdbcType="VARCHAR" property="order" nullValue="0"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo" nullValue="0"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="modifier" jdbcType="VARCHAR" property="modifier"/>
         <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated"/>
@@ -48,9 +48,9 @@
         <selectKey resultClass="java.lang.Long" keyProperty="id">
             SELECT LAST_INSERT_ID() as id
         </selectKey>
-        INSERT INTO api_attribute( id, api_id, is_dto, dto_class_name, argument_type, argument_desc, order, gmt_created,
+        INSERT INTO api_attribute( id, api_id, is_dto, dto_class_name, argument_type, argument_desc, order_no, gmt_created,
         creator, gmt_modified, modifier)
-        VALUES ( #id#, #apiId#, #isDTO#, #dtoClassName#, #argumentType#, #argumentDesc#, #order#, #gmtCreated#,
+        VALUES ( #id#, #apiId#, #isDTO#, #dtoClassName#, #argumentType#, #argumentDesc#, #orderNo#, #gmtCreated#,
         #creator#, #gmtModified#, #modifier#)
     </insert>
 

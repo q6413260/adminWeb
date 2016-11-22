@@ -26,6 +26,7 @@
                 <div style="height: 10px"></div>
                 <div class="row">
                     <div class="form-group col-md-4">
+                        <input type="button" id="reset" class="btn btn-info" value="清除"></input>
                         <input type="button" id="query" class="btn btn-success" value="查询"></input>
                         <input type="button" id="create" class="btn btn-primary" value="新增"></input>
                     </div>
@@ -51,7 +52,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">新增API</h4>
+                <h4 class="modal-title" id="myApiModalLabel">新增API</h4>
             </div>
             <div class="modal-body">
                 <form id="modalForm" data-parsley-validate class="form-horizontal form-label-left">
@@ -96,31 +97,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">编辑方法入参</h4>
+                <h4 class="modal-title" id="myApiAttrModalLabel">编辑方法入参</h4>
             </div>
             <div class="modal-body">
                 <form id="modalForm" data-parsley-validate class="form-inline form-label-left">
                     <div class="row" style="margin-left: 5px">
-                        <div class="form-group">
-                            <span style="font-weight: 700">是否DTO</span>
-                            <div id="isDTO" class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="isDTO" value="Yes"> &nbsp; 是 &nbsp;
-                                </label>
-                                <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="isDTO" value="No"> &nbsp; 否 &nbsp;
-                                </label>
-                            </div>
-                        </div>
+
                         <div class="form-group isDTO">
                             <label class="control-label isDTO" for="dtoClassName">DTO类名</label>
                             <input type="text" name="dtoClassName" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="addAttr"></label>
-                            <input type="button" name="addAttr" id="addAttr" class="btn btn-primary" value="添加参数"></input>
+                            <label class="control-label" for="orderNo">参数序号</label>
+                            <input type="text" name="orderNo" class="form-control">
                         </div>
-
                     </div>
                     <div style="height: 10px"></div>
                     <div class="row notDTO" style="margin-left: 5px;display: none">
@@ -134,11 +124,21 @@
                         </div>
                     </div>
                 </form>
+                <input type="hidden" id="apiId"/>
                 <table id="apiAttrTable" class="table table-bordered">
                 </table>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-default" data-dismiss="modal" value="关闭"></input>
+                    <span style="font-weight: 700">是否DTO</span>
+                    <div id="isDTO" class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                            <input type="radio" name="isDTO" value="Yes"> &nbsp; 是 &nbsp;
+                        </label>
+                        <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                            <input type="radio" name="isDTO" value="No"> &nbsp; 否 &nbsp;
+                        </label>
+                    </div>
+                <input type="button" name="addAttr" id="addAttr" class="btn btn-primary" value="添加参数"></input>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

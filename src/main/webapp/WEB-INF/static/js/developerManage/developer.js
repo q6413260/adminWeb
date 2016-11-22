@@ -26,6 +26,11 @@ $(function(){
             });
         }
     };
+    $("#reset").click(function () {
+        $("#queryForm input[type='text']").val("");
+        initTable();
+    });
+
     $("#create").click(function () {
         $("#createModal").modal('show');
     });
@@ -43,8 +48,8 @@ $(function(){
     });
 
     function showTable(data) {
-        //$('#table').remove();
         $('#table').DataTable( {
+            "destroy": true,
             "ordering": true,
             "data": data,
             "columns": [

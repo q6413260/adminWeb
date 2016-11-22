@@ -23,6 +23,26 @@ $(function(){
                 success: function(data) {
                     if(data.resultCode =="00"){
                         $("#createModal").modal('hide');
+                        initTable();
+                    }else {
+                        alert(data.resultMsg);
+                    }
+                },
+                error: function(data) {
+                    console.log("error...");
+                }
+            });
+        },
+        addAttr: function (param) {
+            $.ajax({
+                url: '/api/attribute/add',
+                method: 'post',
+                contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
+                data: JSON.stringify(param), // 以json字符串方式传递
+                success: function(data) {
+                    if(data.resultCode =="00"){
+                        var apiId = $("#apiId").val();
+                        urlResource.showApiAttrModal(apiId);
                     }else {
                         alert(data.resultMsg);
                     }
@@ -36,6 +56,7 @@ $(function(){
 
     function showTable(data) {
         $('#table').DataTable( {
+            "destroy": true,
             "ordering": true,
             "data": data,
             "columns": [
@@ -50,7 +71,7 @@ $(function(){
                 },
                 { "data": "id", "title": "操作" ,
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html("<a class='modify' data-apiId='" + sData + "'><b><i>编辑API入参</i></b>" + "</a>");
+                        $(nTd).html("<a class='modify' data-apiId='" + sData + "'data-serviceName='" + oData.serviceName + "'><b><i>编辑API入参</i></b>" + "</a>");
                     }
                 }
             ]
@@ -60,16 +81,18 @@ $(function(){
 
     function showApiAttrTable(data) {
         $('#apiAttrTable').DataTable( {
+            "destroy": true,
             "data": data,
             "paging": false,
+            "ordering": false,
             "info": false,
             "searching": false,
             "columns": [
-                { "data": "isDTO", "title": "是否DTO" },
-                { "data": "dtoClassName", "title": "DTO类名" },
-                { "data": "argumentType", "title": "参数类型" },
-                { "data": "argumentType", "title": "参数描述" },
-                { "data": "order", "title": "参数序号" }
+                { "data": "orderNo", "title": "序号"},
+                { "data": "isDTO", "title": "是否DTO"},
+                { "data": "dtoClassName", "title": "DTO类名"},
+                { "data": "argumentType", "title": "参数类型"},
+                { "data": "argumentType", "title": "参数描述"}
             ]
         } );
         $('#table').attr("style", "");
@@ -77,6 +100,11 @@ $(function(){
 
     $("#create").click(function () {
         $("#createModal").modal('show');
+    });
+
+    $("#reset").click(function () {
+        $("#queryForm input[type='text']").val("");
+        initTable();
     });
 
     $("#save").click(function () {
@@ -88,8 +116,26 @@ $(function(){
         urlResource.insert(param);
     });
 
+    $("#addAttr").click(function(){
+        var param = {};
+        param['apiId'] = $("#apiId").val();
+        param['orderNo'] = $("input[name='orderNo']").val();
+        param['isDTO'] = $("input[type='radio']:checked").val();
+        param['dtoClassName'] = $("input[name='dtoClassName']").val();
+        param['argumentType'] = $("input[name='argumentType']").val();
+        param['argumentDesc'] = $("input[name='argumentDesc']").val();
+        urlResource.addAttr(param);
+    });
+
+    $("#query").click(function(){
+        initTable();
+    });
+
     $('#table').on('click','.modify',function(){
         var apiId = $(this).attr("data-apiId");
+        $("#apiId").val(apiId);
+        var text = "编辑方法(" + $(this).attr("data-serviceName") + ")入参";
+        $("#myApiAttrModalLabel").html(text);
         urlResource.showApiAttrModal(apiId);
     });
 

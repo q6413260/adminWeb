@@ -18,6 +18,7 @@
                     <input type="text" name="appKey" class="form-control" placeholder="enter appKey">
                 </div>
                 <div class="form-group col-md-4">
+                    <input type="button" id="reset" class="btn btn-info" value="清除"></input>
                     <input type="button" id="query" class="btn btn-success" value="查询"></input>
                     <input type="button" id="create" class="btn btn-primary" value="新增"></input>
                 </div>

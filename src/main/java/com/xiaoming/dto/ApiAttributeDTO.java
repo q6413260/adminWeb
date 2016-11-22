@@ -12,7 +12,7 @@ public class ApiAttributeDTO {
     private String dtoClassName;
     private String argumentType;
     private String argumentDesc;
-    private int    order;
+    private int    orderNo;
     private Date   gmtCreated;
     private String creator;
     private Date   gmtModified;
@@ -58,12 +58,12 @@ public class ApiAttributeDTO {
         this.id = id;
     }
 
-    public int getOrder() {
-        return order;
+    public int getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setOrderNo(int orderNo) {
+        this.orderNo = orderNo;
     }
 
     public Long getApiId() {
