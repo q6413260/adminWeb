@@ -4,7 +4,7 @@
 $(function(){
     var urlResource = {
         query: function(param){
-            $.get("/api/query", param, function (data) {
+            $.get("/apis", param, function (data) {
                 showTable(data);
             });
         },
@@ -16,7 +16,7 @@ $(function(){
         },
         insert : function (param) {
             $.ajax({
-                url: '/api/create',
+                url: '/apis',
                 method: 'post',
                 contentType: 'application/json', // 这句不加出现415错误:Unsupported Media Type
                 data: JSON.stringify(param), // 以json字符串方式传递
@@ -71,7 +71,7 @@ $(function(){
                 },
                 { "data": "id", "title": "操作" ,
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html("<a class='modify' data-apiId='" + sData + "'data-serviceName='" + oData.serviceName + "'><b><i>编辑API入参</i></b>" + "</a>");
+                        $(nTd).html("<a class='modify' data-apiId='" + sData + "'data-serviceName='" + oData.serviceName + "'><b><i>编辑API入参</i></b></a>");
                     }
                 }
             ]
@@ -80,6 +80,9 @@ $(function(){
     };
 
     function showApiAttrTable(data) {
+        if(data.length == 0){
+            return;
+        }
         $('#apiAttrTable').DataTable( {
             "destroy": true,
             "data": data,

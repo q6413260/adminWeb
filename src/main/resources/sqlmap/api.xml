@@ -57,7 +57,7 @@
     <select id="find" parameterClass="ApiDTO" resultMap="ApiDTO">
         SELECT * FROM api
         WHERE 1=1
-        <isNotEmpty prepend="id" property="id">
+        <isNotEmpty prepend="and" property="id">
             id = #id#
         </isNotEmpty>
         <isNotEmpty prepend="and" property="serviceName">

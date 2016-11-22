@@ -15,12 +15,12 @@ import java.util.Map;
  * Created by xiaoming on 21/11/2016.
  */
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/apis")
 public class ApiController {
     @Autowired
     private ApiService apiService;
 
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<ApiDTO> queryApis(@RequestParam(value = "serviceName", required = false) String serviceName,
                                                 @RequestParam(value = "interfaceName", required = false) String interfaceName,
                                                 @RequestParam(value = "methodName", required = false) String methodName) {
@@ -47,7 +47,7 @@ public class ApiController {
         return map;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody Map createApi(@RequestBody ApiDTO apiDTO){
         Map map = new HashMap();
         try {

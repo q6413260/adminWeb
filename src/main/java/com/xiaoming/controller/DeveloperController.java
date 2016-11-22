@@ -1,7 +1,9 @@
 package com.xiaoming.controller;
 
 import com.google.common.base.Preconditions;
+import com.xiaoming.dto.DeveloperApiDTO;
 import com.xiaoming.dto.DeveloperDTO;
+import com.xiaoming.dto.MenuDTO;
 import com.xiaoming.service.DeveloperService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,12 @@ import java.util.Map;
  * Created by xiaoming on 16/11/2016.
  */
 @Controller
-@RequestMapping("/developer")
+@RequestMapping("/developers")
 public class DeveloperController {
     @Autowired
     private DeveloperService developerService;
 
-    @RequestMapping("/query")
+    @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<DeveloperDTO> queryDevelopers(@RequestParam(value = "name", required = false) String name,
                                                             @RequestParam(value = "appKey", required = false) String appKey) {
         DeveloperDTO developerDTO = new DeveloperDTO();
@@ -31,7 +33,7 @@ public class DeveloperController {
         return list;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody Map createNewDeveloper(@RequestBody DeveloperDTO developerDTO) {
         Map map = new HashMap();
         try {
@@ -42,6 +44,19 @@ public class DeveloperController {
             return map;
         }
         developerService.insert(developerDTO);
+        map.put("resultCode", "00");
+        return map;
+    }
+    @RequestMapping(value = "{developerId}/apis", method = RequestMethod.GET)
+    public @ResponseBody List<DeveloperApiDTO> queryAccessedApi(@PathVariable Long developerId) {
+        List<DeveloperApiDTO> list = developerService.queryAccessedApi(developerId);
+        return list;
+    }
+
+    @RequestMapping(value = "{developerId}/apis", method = RequestMethod.POST)
+    public @ResponseBody Map insertDeveloperApi(@RequestBody DeveloperApiDTO developerApiDTO) {
+        Map map = new HashMap();
+        developerService.insertDeveloperApi(developerApiDTO);
         map.put("resultCode", "00");
         return map;
     }
