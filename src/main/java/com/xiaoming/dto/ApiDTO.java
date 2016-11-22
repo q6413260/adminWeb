@@ -10,12 +10,21 @@ public class ApiDTO {
     private String serviceName;
     private String interfaceName;
     private String methodName;
+    private String description;
     private String version;
     private String status;
     private Date   gmtCreated;
     private String creator;
     private Date   gmtModified;
     private String modifier;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Long getId() {
         return id;

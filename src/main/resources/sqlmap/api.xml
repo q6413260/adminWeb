@@ -1,24 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
 
-<sqlMap namespace="api" >
+<sqlMap namespace="api">
 
-    <typeAlias alias="ApiDTO" type="com.xiaoming.dto.ApiDTO" />
+    <typeAlias alias="ApiDTO" type="com.xiaoming.dto.ApiDTO"/>
+    <typeAlias alias="ApiAttributeDTO" type="com.xiaoming.dto.ApiAttributeDTO"/>
 
     <resultMap id="ApiDTO" class="ApiDTO">
         <result column="id" jdbcType="BIGINT" property="id"/>
         <result column="service_name" jdbcType="VARCHAR" property="serviceName"/>
         <result column="interface_name" jdbcType="VARCHAR" property="interfaceName"/>
         <result column="method_name" jdbcType="VARCHAR" property="methodName"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="version" jdbcType="VARCHAR" property="version"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
-        <result column="creator" jdbcType="VARCHAR" property="creator" />
-        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
-        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="modifier" jdbcType="VARCHAR" property="modifier"/>
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
     </resultMap>
 
-    <select id="find" parameterClass="UserDTO" resultMap="ApiDTO">
+    <resultMap id="ApiAttributeDTO" class="com.xiaoming.dto.ApiAttributeDTO">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="api_id" jdbcType="BIGINT" property="apiId"/>
+        <result column="is_dto" jdbcType="VARCHAR" property="isDTO"/>
+        <result column="dto_class_name" jdbcType="VARCHAR" property="dtoClassName"/>
+        <result column="argument_type" jdbcType="VARCHAR" property="argumentType"/>
+        <result column="argument_desc" jdbcType="VARCHAR" property="argumentDesc"/>
+        <result column="order" jdbcType="VARCHAR" property="order" nullValue="0"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="modifier" jdbcType="VARCHAR" property="modifier"/>
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+
+    <insert id="insert" parameterClass="ApiDTO">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        INSERT INTO api( id, service_name, interface_name, method_name, description, version, status, gmt_created,
+        creator, gmt_modified, modifier)
+        VALUES ( #id#, #serviceName#, #interfaceName#, #methodName#, #description#, #version#, #status#, #gmtCreated#,
+        #creator#, #gmtModified#, #modifier#)
+    </insert>
+
+    <insert id="insertAttribute" parameterClass="ApiAttributeDTO">
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        INSERT INTO api_attribute( id, api_id, is_dto, dto_class_name, argument_type, argument_desc, order, gmt_created,
+        creator, gmt_modified, modifier)
+        VALUES ( #id#, #apiId#, #isDTO#, #dtoClassName#, #argumentType#, #argumentDesc#, #order#, #gmtCreated#,
+        #creator#, #gmtModified#, #modifier#)
+    </insert>
+
+    <select id="find" parameterClass="ApiDTO" resultMap="ApiDTO">
         SELECT * FROM api
         WHERE 1=1
         <isNotEmpty prepend="id" property="id">
@@ -35,4 +71,8 @@
         </isNotEmpty>
     </select>
 
+    <select id="findAttrByApiId" parameterClass="java.lang.Long" resultMap="ApiAttributeDTO">
+        SELECT * FROM api_attribute
+        WHERE api_id = #apiId#
+    </select>
 </sqlMap>
